@@ -61,9 +61,14 @@ function makeResponsive() {
         chartGroup.append("g")
             .call(yAxis);
 
+        // var theCircles = svg.selectAll("g theCircles").data(healthData).enter();
+        var theCircles = chartGroup.selectAll("g circle").data(healthData).enter();
+
+
         var circlesGroup = chartGroup.selectAll("circle")
             .data(healthData)
             .enter()
+        // theCircles
             .append("circle")
             .attr("cx", d => xLinearScale(d.poverty))
             .attr("cy", d => yLinearScale(d.healthcare))
@@ -72,9 +77,10 @@ function makeResponsive() {
             .attr("stroke-width", "1")
             .attr("stroke", "lightblue")
 
-        var text = chartGroup.selectAll("text")
-            .data(healthData)
-            .enter()
+        // var text = chartGroup.selectAll("text")
+        //     .data(healthData)
+        //     .enter()
+        theCircles
             .append("text")
             .attr("x", d => xLinearScale(d.poverty))
             .attr("y", d => yLinearScale(d.healthcare))
@@ -92,8 +98,10 @@ function makeResponsive() {
             });
 
         chartGroup.call(toolTip);
+        // theCircles.call(toolTip);
 
         circlesGroup.on("mouseover", function (data) {
+        // theCircles.on("mouseover", function (data) {
             toolTip.show(data, this);
         })
             .on("mouseout", function (data) {
@@ -101,6 +109,7 @@ function makeResponsive() {
             });
 
         chartGroup.append("text")
+        // theCircles.append("text")
             .attr("transform", "rotate(-90)")
             .attr("y", 0 - margin.left + 40)
             .attr("x", 0 - (height / 1.5))
@@ -109,6 +118,7 @@ function makeResponsive() {
             .text("Lacks Healthcare (%)");
 
         chartGroup.append("text")
+        // theCircles.append("text")
             .attr("transform", `translate(${width / 2}, ${height + margin.top})`)
             .attr("class", "axisText")
             .text("In Poverty (%)");
